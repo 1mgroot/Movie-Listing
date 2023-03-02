@@ -3,10 +3,7 @@ import { Card, CardActions, CardContent, CardMedia, IconButton, Typography } fro
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-
-export const getImgFullUrl = (imgUrl) => {
-    return `https://image.tmdb.org/t/p/w500/${imgUrl}`;
-};
+import { getImgFullUrl } from "../utils/helpers";
 
 export default function MovieCard({ movie }) {
     return (
