@@ -1,9 +1,11 @@
 import Home from './pages/Home';
+import MovieDetail from './pages/MovieDetail';
 
 function App() {
   return (
     <div className="App">
-      <Home/>
+      {/* <Home/> */}
+      <MovieDetail movieID={631842}/>
     </div>
   );
 }
