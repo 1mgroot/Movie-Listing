@@ -1,6 +1,5 @@
 import { Chip, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { fetchMoviesDetailByID } from "../utils/fetchFromAPI";
 import { getImgFullUrl } from "../utils/helpers";
@@ -50,7 +49,6 @@ export default function MovieDetail({ movieID }) {
                             )
                         })}
                         </Grid2>
-                        { }
                         <Typography variant="h6">Average Rating:</Typography>
                         <Grid2 container>
                             <Grid2><StarIcon style={{color:"#F5C518"}}/></Grid2>
