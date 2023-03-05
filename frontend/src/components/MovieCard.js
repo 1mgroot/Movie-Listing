@@ -4,6 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { getImgFullUrl } from "../utils/helpers";
+import { Link } from "react-router-dom";
 
 export default function MovieCard({ movie }) {
     return (
@@ -15,9 +16,11 @@ export default function MovieCard({ movie }) {
                 image={getImgFullUrl(movie.poster_path)}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {movie.title}
-                </Typography>
+                <Link to={`movie/${movie.id}`} style={{color:"black"}}>
+                    <Typography variant="h5">
+                        {movie.title}
+                    </Typography>
+                </Link>
             </CardContent>
             <CardActions disableSpacing>
                 <Grid2 container

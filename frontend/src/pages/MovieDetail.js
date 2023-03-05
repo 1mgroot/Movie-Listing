@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { fetchMoviesDetailByID } from "../utils/fetchFromAPI";
 import { getImgFullUrl } from "../utils/helpers";
 import StarIcon from '@mui/icons-material/Star';
+import { useParams } from "react-router-dom";
 
 
 export function ProductionCompany({ name, logo_path }) {
@@ -17,8 +18,9 @@ export function ProductionCompany({ name, logo_path }) {
 }
 
 
-export default function MovieDetail({ movieID }) {
+export default function MovieDetail() {
     const [movieData, setMoviesData] = useState({});
+    const {movieID} = useParams();
 
     useEffect(() => {
         fetchMoviesDetailByID(movieID).then((data) => {
