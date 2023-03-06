@@ -12,6 +12,8 @@ export default function Home() {
     const [totalPage, setTotalPage] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentCategory, setCurrentCategory] = useState(CATEGORIES.NOW_PLAYING.value);
+    const [likedList, setLikedList] = useState([]);
+    const [likedMoviesMap, setLikedMoviesMap] = useState({});
 
     useEffect(() => {
         // console.log("USE EFFECT");
@@ -31,18 +33,44 @@ export default function Home() {
     }
 
     const handlePrevPage = () => {
-        if(currentPage===1){
+        if (currentPage === 1) {
             return;
         }
-        setCurrentPage(currentPage-1);
+        setCurrentPage(currentPage - 1);
     }
 
     const handleNextPage = () => {
-        if(currentPage===totalPage){
+        if (currentPage === totalPage) {
             return;
         }
-        setCurrentPage(currentPage+1);
+        setCurrentPage(currentPage + 1);
     }
+
+    useEffect(() => {
+        console.log("likedList",likedList);
+        setLikedMoviesMap(likedList.reduce((acc, likedMovie) => {
+            acc[likedMovie.id] = likedMovie;
+            return acc;
+        }, {}));
+    },[likedList]);
+
+    const handleToggleLike = (movie) => {
+        // const hasLiked = likedList.find((likedMovie) => {
+        //   return likedMovie.id === movie.id;
+        // });
+        console.log("movie", movie);
+        const hasLiked = likedMoviesMap[movie.id];
+
+        if (hasLiked) {
+            setLikedList(
+                likedList.filter((likedMovie) => {
+                    return likedMovie.id !== movie.id;
+                })
+            );
+        } else {
+            setLikedList([...likedList, movie]);
+        }
+    };
 
 
     return (<div>
@@ -66,7 +94,7 @@ export default function Home() {
             </Grid2>
 
             <Grid2 xs={12}>
-                <MovieCardList movies={moviesData} />
+                <MovieCardList movies={moviesData} likedMoviesMap={likedMoviesMap}  onToggleLike={handleToggleLike} />
             </Grid2>
         </Grid2>
     </div>);

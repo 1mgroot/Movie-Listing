@@ -5,8 +5,9 @@ import StarIcon from '@mui/icons-material/Star';
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { getImgFullUrl } from "../utils/helpers";
 import { Link } from "react-router-dom";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-export default function MovieCard({ movie }) {
+export default function MovieCard({ movie, isLiked, onToggleLike }) {
     return (
         <Card style={{ height: "100%" }}>
             <CardMedia
@@ -16,7 +17,7 @@ export default function MovieCard({ movie }) {
                 image={getImgFullUrl(movie.poster_path)}
             />
             <CardContent>
-                <Link to={`movie/${movie.id}`} style={{color:"black"}}>
+                <Link to={`movie/${movie.id}`} style={{ color: "black" }}>
                     <Typography variant="h5">
                         {movie.title}
                     </Typography>
@@ -24,10 +25,10 @@ export default function MovieCard({ movie }) {
             </CardContent>
             <CardActions disableSpacing>
                 <Grid2 container
-                    // justifyContent="space-between"
-                    // alignItems="center"
-                    // flexDirection={{ xs: 'column', sm: 'row' }}
-                    // sx={{ fontSize: '12px' }}
+                // justifyContent="space-between"
+                // alignItems="center"
+                // flexDirection={{ xs: 'column', sm: 'row' }}
+                // sx={{ fontSize: '12px' }}
                 >
                     <Grid2 sx={{ order: { xs: 2, sm: 1 } }}>
                         <IconButton aria-label="rate">
@@ -36,8 +37,8 @@ export default function MovieCard({ movie }) {
                         {movie.vote_average}
                     </Grid2>
                     <Grid2 sx={{ order: { xs: 1, sm: 2 } }}>
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon />
+                        <IconButton onClick={()=>onToggleLike(movie)} aria-label="favorites Toggle">
+                            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                         </IconButton>
                     </Grid2>
                 </Grid2>
