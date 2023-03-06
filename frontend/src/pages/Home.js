@@ -47,7 +47,6 @@ export default function Home() {
 
     return (<div>
         <Grid2 container>
-            <Grid2>HEADER</Grid2>
             <Grid2 container xs={12} alignItems="center">
                 <Grid2 xsOffset={4} xs={1}>
                     <Button variant="outlined" onClick={handlePrevPage}>Previous</Button>

@@ -9,7 +9,7 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isLoding, setIsLoding] = useState(false);
-    const [sessionId, setSessionId] = useState("");
+    const [successLoggedIn, setSuccessLoggedIn] = useState(false);
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -21,21 +21,21 @@ export default function Login() {
 
     const handleSubmit = () => {
         setIsLoding(true);
-        console.log("isLoagging",isLoding);
         getRequestToken().then((data) => {
             const requestToken = data.request_token;
             validateWithLogin(username, password, requestToken).then((data) => {
                 if (data.success) {
                     getSessionId(requestToken).then((data) => {
                         if (data.success) {
-                            setSessionId(data.session_id);
-                            getAccountDetail(data.session_id).then((data) => {
+                            const sessionId = data.session_id;
+                            getAccountDetail(sessionId).then((data) => {
                                 localStorage.setItem('user', JSON.stringify({
                                     username,
                                     accoutId: data.id,
-                                    sessionId: data.session_id,
+                                    sessionId: sessionId,
                                     requestToken: requestToken
-                                }))
+                                }));
+                                setSuccessLoggedIn(true);
                             });
                         }
                     });
@@ -48,7 +48,7 @@ export default function Login() {
 
     return (
         <>
-            {sessionId && (
+            {successLoggedIn && (
                 <Navigate to="/" replace={true} />
             )}
 
