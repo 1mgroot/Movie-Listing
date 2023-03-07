@@ -18,7 +18,6 @@ export default function Favorite() {
 
     useEffect(() => {
         if(user?.accoutId){
-            console.log("user useEffect",user);
             getFavMovieList(user.accoutId, 1, user.sessionId).then((data) => {
                 setLikedList(data.results);
             });
@@ -27,7 +26,6 @@ export default function Favorite() {
     }, [user]);
 
     useEffect(() => {
-        // console.log("likedList", likedList);
         if (likedList) {
             setLikedMoviesMap(likedList.reduce((acc, likedMovie) => {
                 acc[likedMovie.id] = likedMovie;
@@ -38,7 +36,6 @@ export default function Favorite() {
 
     const handleToggleLike = (movie) => {
         if (user?.accoutId) {
-            console.log("user handleToggleLike",user);
             const hasLiked = Boolean(likedMoviesMap[movie.id]);
             markFavoriteMovie(movie.id, !hasLiked, user.sessionId, user.accoutId);
 
