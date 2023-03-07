@@ -38,7 +38,7 @@ export default function MovieCard({ movie, isLiked, onToggleLike }) {
                     </Grid2>
                     <Grid2 sx={{ order: { xs: 1, sm: 2 } }}>
                         <IconButton onClick={()=>onToggleLike(movie)} aria-label="favorites Toggle">
-                            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                            {isLiked ? <FavoriteIcon style={{color:"red"}}/> : <FavoriteBorderIcon style={{color:"red"}}/>}
                         </IconButton>
                     </Grid2>
                 </Grid2>
