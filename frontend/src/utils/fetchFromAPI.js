@@ -8,6 +8,8 @@ export const fetchMoviesByCategory = (category, page) => {
   });
 };
 
+
+
 export const fetchMoviesDetailByID = (movie_id) => {
   // https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
   const url = `${URL_PREFIX}/movie/${movie_id}?api_key=${API_KEY}&language=en-US`;
@@ -63,4 +65,29 @@ export const getAccountDetail = (session_id) => {
   return fetch(url).then((resp) => {
     return resp.json();
   });
+}
+
+export const markFavoriteMovie = (movie_id,favorite,session_id,account_id) => {
+  // https://api.themoviedb.org/3/account/{account_id}/favorite?api_key=<<api_key>>
+  const url = `${URL_PREFIX}/account/${account_id}/favorite?api_key=${API_KEY}&session_id=${session_id}`;
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      media_type: "movie",
+      media_id: movie_id,
+      favorite: favorite
+    }),
+  };  
+  return fetch(url, requestOptions).then((resp) => {
+    return resp.json();
+  });
+}
+
+export const getFavMovieList = (account_id,page,session_id) => {
+  // https://api.themoviedb.org/3/account/{account_id}/favorite/movies?api_key=<<api_key>>&language=en-US&sort_by=created_at.asc&page=1
+  const url = `${URL_PREFIX}/account/${account_id}//favorite/movies?api_key=${API_KEY}&session_id=${session_id}&sort_by=created_at.asc&page=${page}`
+  return fetch(url).then((resp)=>{
+    return resp.json();
+  })
 }

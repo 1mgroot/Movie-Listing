@@ -5,22 +5,22 @@ import React, { useEffect, useState } from "react";
 import CategorySelector from "../components/CategorySelector";
 import MovieCardList from "../components/MovieCardList";
 import { CATEGORIES } from "../constants";
-import { fetchMoviesByCategory } from "../utils/fetchFromAPI";
+import { fetchMoviesByCategory, getFavMovieList, markFavoriteMovie } from "../utils/fetchFromAPI";
 
 export default function Home() {
     const [moviesData, setMoviesData] = useState([]);
     const [totalPage, setTotalPage] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentCategory, setCurrentCategory] = useState(CATEGORIES.NOW_PLAYING.value);
+    const [likedList, setLikedList] = useState([]);
+    const [likedMoviesMap, setLikedMoviesMap] = useState({});
+    // const [user, setUser] = useState({});
 
     useEffect(() => {
-        // console.log("USE EFFECT");
         fetchMoviesByCategory(currentCategory, currentPage).then((data) => {
             setTotalPage(data.total_pages);
             setMoviesData(data.results);
         });
-        // console.log("movieData",moviesData);
-        // console.log("totalPage",totalPage);
     }, [currentPage, currentCategory]);
 
     const handleCategoryChange = (category) => {
@@ -31,18 +31,49 @@ export default function Home() {
     }
 
     const handlePrevPage = () => {
-        if(currentPage===1){
+        if (currentPage === 1) {
             return;
         }
-        setCurrentPage(currentPage-1);
+        setCurrentPage(currentPage - 1);
     }
 
     const handleNextPage = () => {
-        if(currentPage===totalPage){
+        if (currentPage === totalPage) {
             return;
         }
-        setCurrentPage(currentPage+1);
+        setCurrentPage(currentPage + 1);
     }
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            getFavMovieList(user.accoutId, 1, user.sessionId).then((data) => {
+                setLikedList(data.results);
+            })
+        }
+    }, [localStorage.getItem('user')])
+
+    useEffect(() => {
+        console.log("likedList", likedList);
+        if (likedList) {
+            setLikedMoviesMap(likedList.reduce((acc, likedMovie) => {
+                acc[likedMovie.id] = likedMovie;
+                return acc;
+            }, {}));
+        }
+    }, [likedList]);
+
+    const handleToggleLike = (movie) => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const hasLiked = Boolean(likedMoviesMap[movie.id]);
+            markFavoriteMovie(movie.id, !hasLiked, user.sessionId, user.accoutId);
+
+            getFavMovieList(user.accoutId, 1, user.sessionId).then((data) => {
+                setLikedList(data.results);
+            })
+        }
+    };
 
 
     return (<div>
@@ -66,7 +97,7 @@ export default function Home() {
             </Grid2>
 
             <Grid2 xs={12}>
-                <MovieCardList movies={moviesData} />
+                <MovieCardList movies={moviesData} likedMoviesMap={likedMoviesMap} onToggleLike={handleToggleLike} />
             </Grid2>
         </Grid2>
     </div>);
