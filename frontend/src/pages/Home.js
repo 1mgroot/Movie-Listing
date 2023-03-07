@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import CategorySelector from "../components/CategorySelector";
 import MovieCardList from "../components/MovieCardList";
 import { CATEGORIES } from "../constants";
-import { fetchMoviesByCategory } from "../utils/fetchFromAPI";
+import { fetchMoviesByCategory, getFavMovieList, markFavoriteMovie } from "../utils/fetchFromAPI";
 
 export default function Home() {
     const [moviesData, setMoviesData] = useState([]);
@@ -14,15 +14,13 @@ export default function Home() {
     const [currentCategory, setCurrentCategory] = useState(CATEGORIES.NOW_PLAYING.value);
     const [likedList, setLikedList] = useState([]);
     const [likedMoviesMap, setLikedMoviesMap] = useState({});
+    // const [user, setUser] = useState({});
 
     useEffect(() => {
-        // console.log("USE EFFECT");
         fetchMoviesByCategory(currentCategory, currentPage).then((data) => {
             setTotalPage(data.total_pages);
             setMoviesData(data.results);
         });
-        // console.log("movieData",moviesData);
-        // console.log("totalPage",totalPage);
     }, [currentPage, currentCategory]);
 
     const handleCategoryChange = (category) => {
@@ -47,28 +45,33 @@ export default function Home() {
     }
 
     useEffect(() => {
-        console.log("likedList",likedList);
-        setLikedMoviesMap(likedList.reduce((acc, likedMovie) => {
-            acc[likedMovie.id] = likedMovie;
-            return acc;
-        }, {}));
-    },[likedList]);
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            getFavMovieList(user.accoutId, 1, user.sessionId).then((data) => {
+                setLikedList(data.results);
+            })
+        }
+    }, [localStorage.getItem('user')])
+
+    useEffect(() => {
+        console.log("likedList", likedList);
+        if (likedList) {
+            setLikedMoviesMap(likedList.reduce((acc, likedMovie) => {
+                acc[likedMovie.id] = likedMovie;
+                return acc;
+            }, {}));
+        }
+    }, [likedList]);
 
     const handleToggleLike = (movie) => {
-        // const hasLiked = likedList.find((likedMovie) => {
-        //   return likedMovie.id === movie.id;
-        // });
-        console.log("movie", movie);
-        const hasLiked = likedMoviesMap[movie.id];
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const hasLiked = Boolean(likedMoviesMap[movie.id]);
+            markFavoriteMovie(movie.id, !hasLiked, user.sessionId, user.accoutId);
 
-        if (hasLiked) {
-            setLikedList(
-                likedList.filter((likedMovie) => {
-                    return likedMovie.id !== movie.id;
-                })
-            );
-        } else {
-            setLikedList([...likedList, movie]);
+            getFavMovieList(user.accoutId, 1, user.sessionId).then((data) => {
+                setLikedList(data.results);
+            })
         }
     };
 
@@ -94,7 +97,7 @@ export default function Home() {
             </Grid2>
 
             <Grid2 xs={12}>
-                <MovieCardList movies={moviesData} likedMoviesMap={likedMoviesMap}  onToggleLike={handleToggleLike} />
+                <MovieCardList movies={moviesData} likedMoviesMap={likedMoviesMap} onToggleLike={handleToggleLike} />
             </Grid2>
         </Grid2>
     </div>);
