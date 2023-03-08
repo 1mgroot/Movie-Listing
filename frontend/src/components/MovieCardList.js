@@ -35,7 +35,7 @@ export default function MovieCardList({ movies, likedMoviesMap, onToggleLike }) 
 
     return (
         <Grid2 container spacing={3}>
-            {movies.map(movie => {
+            {movies?.map(movie => {
                 const isLiked = likedMoviesMap[movie.id];
                 const ratedMoive = ratedMoviesMap[movie.id];
                 return (<Grid2 xs={3} key={movie.id}><MovieCard movie={movie} isLiked={isLiked} onToggleLike={onToggleLike} ratedMoive={ratedMoive}/></Grid2>)
