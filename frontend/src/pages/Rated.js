@@ -8,9 +8,7 @@ export default function Rated() {
     const [likedList, setLikedList] = useState([]);
     const [likedMoviesMap, setLikedMoviesMap] = useState({});
     const [user, setUser] = useState({});
-
     const [ratedMovies, setRatedMovies] = useState();
-    const [ratedMoviesMap, setRatedMoviesMap] = useState({});
 
 
 
@@ -32,15 +30,6 @@ export default function Rated() {
         }
 
     }, [user]);
-
-    useEffect(() => {
-        if (ratedMovies) {
-            setRatedMoviesMap(ratedMovies.reduce((acc, ratedMovie) => {
-                acc[ratedMovie.id] = ratedMovie;
-                return acc;
-            }, {}));
-        }
-    }, [ratedMovies]);
 
     useEffect(() => {
         if (likedList) {
