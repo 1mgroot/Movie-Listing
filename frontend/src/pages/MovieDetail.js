@@ -51,7 +51,6 @@ export function RateSelector({movieID}) {
 export default function MovieDetail() {
     const [movieData, setMoviesData] = useState({});
     const { movieID } = useParams();
-    console.log("movieIdd", movieID);
 
     useEffect(() => {
         fetchMoviesDetailByID(movieID).then((data) => {
@@ -61,7 +60,6 @@ export default function MovieDetail() {
 
     const [ratedMovies, setRatedMovies] = useState();
     const [ratedMoviesMap, setRatedMoviesMap] = useState({});
-    const [ratedData, setRatedData] = useState({});
     const [user, setUser] = useState({});
 
     useEffect(() =>{
@@ -84,11 +82,6 @@ export default function MovieDetail() {
         if (ratedMovies) {
             setRatedMoviesMap(ratedMovies.reduce((acc, ratedMovie) => {
                 acc[ratedMovie.id] = ratedMovie;
-                // should use ===
-                if(ratedMovie.id == movieID){
-                    console.log("FOUND rated data", ratedMovie);
-                    setRatedData(ratedMovie);
-                }
                 return acc;
             }, {}));
         }

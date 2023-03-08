@@ -94,7 +94,6 @@ export const getFavMovieList = (account_id,page,session_id) => {
 
 export const rateMovie = (movie_id, session_id,value) => {
   // https://api.themoviedb.org/3/movie/631842/rating?api_key=9496cf73fa27b7ee8376e145cb4f69dc&session_id=ca2ebf72861a9160540949a5380f348bec234499
-  console.log("RATE");
   const url = `${URL_PREFIX}/movie/${movie_id}/rating?api_key=${API_KEY}&session_id=${session_id}`;
   const requestOptions = {
     method: 'POST',
