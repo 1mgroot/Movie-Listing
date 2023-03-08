@@ -7,7 +7,7 @@ import { getImgFullUrl } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-export default function MovieCard({ movie, isLiked, onToggleLike }) {
+export default function MovieCard({ movie, isLiked, onToggleLike, ratedMoive }) {
     return (
         <Card style={{ height: "100%" }}>
             <CardMedia
@@ -34,7 +34,7 @@ export default function MovieCard({ movie, isLiked, onToggleLike }) {
                         <IconButton aria-label="rate">
                             <StarIcon />
                         </IconButton>
-                        {movie.vote_average}
+                        {ratedMoive ? ratedMoive.rating : movie.vote_average}
                     </Grid2>
                     <Grid2 sx={{ order: { xs: 1, sm: 2 } }}>
                         <IconButton onClick={()=>onToggleLike(movie)} aria-label="favorites Toggle">
