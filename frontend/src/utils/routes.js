@@ -4,6 +4,7 @@ import Favorite from "../pages/Favorite";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MovieDetail from "../pages/MovieDetail";
+import Rated from "../pages/Rated";
 
 export const router = createBrowserRouter([
     {
@@ -14,6 +15,8 @@ export const router = createBrowserRouter([
             { path:"/favorite", element:<Favorite/>},
             { path: "/login", element: <Login /> },
             { path: "/movie/:movieID", element: <MovieDetail /> },
+            { path: "/rated", element: <Rated /> },
+
         ]
     },
 

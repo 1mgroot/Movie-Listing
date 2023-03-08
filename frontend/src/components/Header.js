@@ -51,7 +51,7 @@ export function Header() {
                 <Grid>
                     <Button component={Link} to="/">Home</Button>
                     <Button component={Link} to="/favorite">FAVORITE</Button>
-                    <Button>RATED</Button>
+                    <Button component={Link} to="/rated">RATED</Button>
                 </Grid>
             </Grid2>
 
